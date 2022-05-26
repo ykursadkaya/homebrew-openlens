@@ -10,12 +10,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.0.2
         with:
           token: ${{ secrets.PAT }}
       - name: Get the latest version of Lens
         run: |
-          export ACTIONS_ALLOW_UNSECURE_COMMANDS=true
           curl -s https://lens-binaries.s3.amazonaws.com/ide/latest-mac.yml |\
             grep -o "version:.*-latest" | grep -oP "(\d+(:?\.\d+)+)" |\
             head -n 1 > version
