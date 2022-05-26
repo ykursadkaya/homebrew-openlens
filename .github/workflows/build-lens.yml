@@ -2,30 +2,33 @@ name: Build Lens
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: macos-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Export version to variable
+        run: |
+          export ACTIONS_ALLOW_UNSECURE_COMMANDS=true
+          export LENS_VERSION=$(cat version)
+          echo "LENS_VERSION=$LENS_VERSION" >> $GITHUB_ENV
       - uses: actions/setup-node@v3
         with:
           node-version: 14.19.3
-      -
-        name: Build Lens
+      - name: Build Lens
         run: |
           git clone https://github.com/lensapp/lens.git
           cd lens
-          git checkout v5.5.0
+          git checkout v${{ env.LENS_VERSION }}
           make build
-          mv dist/OpenLens-5.5.0-latest.*.zip dist/OpenLens-5.5.0.zip
+          mv dist/OpenLens-${{ env.LENS_VERSION }}-latest.*.zip dist/OpenLens-${{ env.LENS_VERSION }}.zip
           ls -la dist
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
         with:
-          tag_name: v5.5.0
-          files: lens/dist/OpenLens-5.5.0.zip
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: upload-artifacts
-          path: lens/dist/OpenLens-5.5.0.zip
+          tag_name: v$LENS_VERSION
+          files: lens/dist/OpenLens-${{ env.LENS_VERSION }}.zip
