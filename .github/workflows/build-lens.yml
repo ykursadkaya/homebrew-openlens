@@ -1,0 +1,31 @@
+name: Build Lens
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.19.3
+      -
+        name: Build Lens
+        run: |
+          git clone https://github.com/lensapp/lens.git
+          cd lens
+          git checkout v5.5.0
+          make build
+          mv dist/OpenLens-5.5.0-latest.*.zip dist/OpenLens-5.5.0.zip
+          ls -la dist
+      - name: Release
+        uses: softprops/action-gh-release@v0.1.14
+        with:
+          tag_name: v5.5.0
+          files: lens/dist/OpenLens-5.5.0.zip
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: upload-artifacts
+          path: lens/dist/OpenLens-5.5.0.zip
