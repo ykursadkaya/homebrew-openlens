@@ -31,3 +31,15 @@ jobs:
         with:
           tag_name: v${{ env.LENS_VERSION }}
           files: lens/dist/OpenLens-${{ env.LENS_VERSION }}.zip
+      - name: Update cask
+        run: |
+          sed -E 's/version \"([[:digit:]]+(:?\.[[:digit:]]+)+)\"/version \"'$(cat version)'\"/' Casks/openlens.rb > lens.rb
+          mv lens.rb Casks/openlens.rb
+          sed -E 's/sha256 \".*\"/sha256 \"'$(shasum -a 256 lens/dist/OpenLens-${{ env.LENS_VERSION }}.zip | awk '{print $1}')'\"/' Casks/openlens.rb > lens.rb
+          mv lens.rb Casks/openlens.rb
+      - name: Add & Commit Cask
+        uses: EndBug/add-and-commit@v9.0.0
+        with:
+          add: 'Casks'
+          message: 'openlens ${{ env.LENS_VERSION }}'
+
