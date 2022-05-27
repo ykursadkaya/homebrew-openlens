@@ -11,6 +11,7 @@ cask "openlens" do
   livecheck do
     url "https://raw.githubusercontent.com/ykursadkaya/homebrew-openlens/main/version"
     strategy :page_match
+    regex(/(\d+(?:\.\d+)*)/)
   end
 
   app "OpenLens.app"
