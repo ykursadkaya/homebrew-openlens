@@ -1,7 +1,7 @@
 cask "openlens" do
-  version "5.5.3"
+  version "5.5.4"
 
-  sha256 "f3582bb1665fc69d276c80455cb468331bc8c9cdfb77d6249626d1d65591987e"
+  sha256 "8926cf2a2aa7defc2ace08544b09e017d1f58840692706cef42fb9ef52566a94"
 
   url "https://github.com/ykursadkaya/homebrew-openlens/releases/download/v#{version}/OpenLens-#{version}.zip"
   name "Open Lens"
