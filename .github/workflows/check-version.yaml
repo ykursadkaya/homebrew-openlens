@@ -15,10 +15,9 @@ jobs:
           token: ${{ secrets.PAT }}
       - name: Get the latest version of Lens
         run: |
-          curl -s https://api.github.com/repos/lensapp/lens/releases/latest | jq -r '.tag_name[1:]' > version
+          curl -s https://api.github.com/repos/lensapp/lens/releases | jq -r '[.[] | select(.prerelease == false)][0] | .tag_name[1:]' > version
           echo "LENS_VERSION=$(cat version)" >> $GITHUB_ENV
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9.0.0
         with:
           message: 'Version updated to: ${{ env.LENS_VERSION }}'
-

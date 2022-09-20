@@ -41,4 +41,3 @@ jobs:
         with:
           add: 'Casks'
           message: 'openlens ${{ env.LENS_VERSION }}'
-
