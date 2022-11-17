@@ -23,7 +23,7 @@ jobs:
           cd lens
           git checkout v${{ env.LENS_VERSION }}
           make build
-          mv dist/OpenLens-${{ env.LENS_VERSION }}-latest.*.zip dist/OpenLens-${{ env.LENS_VERSION }}.zip
+          mv dist/OpenLens-${{ env.LENS_VERSION }}-mac.zip dist/OpenLens-${{ env.LENS_VERSION }}.zip
           ls -la dist
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
