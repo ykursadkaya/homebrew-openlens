@@ -7,6 +7,8 @@ You could skip this login window in prior versions but it’s not skippable anym
 It periodically checks latest version of Lens. If a new version is released, triggers a new CI job to build and release original lensapp/lens repo for macOS.
 Since lensapp/lens repo does not have lenscloud extension it doesn’t have login page.
 
+> If you want macOS ARM, Windows or Linux builds, signed binaries and auto-update features you can checkout [MuhammedKalkan/OpenLens](https://github.com/MuhammedKalkan/OpenLens)
+
 # Installing
 
 - Download ZIP file from releases page
