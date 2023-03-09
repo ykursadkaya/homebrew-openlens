@@ -22,20 +22,20 @@ jobs:
           git clone https://github.com/lensapp/lens.git
           cd lens
           git checkout v${{ env.LENS_VERSION }}
-          yarn
+          yarn install
           yarn run build:app
-          mv dist/OpenLens-${{ env.LENS_VERSION }}-mac.zip dist/OpenLens-${{ env.LENS_VERSION }}.zip
-          ls -la dist
+          mkdir artifacts
+          mv packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}-mac.zip artifacts/OpenLens-${{ env.LENS_VERSION }}.zip
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
         with:
           tag_name: v${{ env.LENS_VERSION }}
-          files: lens/dist/OpenLens-${{ env.LENS_VERSION }}.zip
+          files: lens/artifacts/OpenLens-${{ env.LENS_VERSION }}.zip
       - name: Update cask
         run: |
           sed -E 's/version \"([[:digit:]]+(:?\.[[:digit:]]+)+)\"/version \"'$(cat version)'\"/' Casks/openlens.rb > lens.rb
           mv lens.rb Casks/openlens.rb
-          sed -E 's/sha256 \".*\"/sha256 \"'$(shasum -a 256 lens/dist/OpenLens-${{ env.LENS_VERSION }}.zip | awk '{print $1}')'\"/' Casks/openlens.rb > lens.rb
+          sed -E 's/sha256 \".*\"/sha256 \"'$(shasum -a 256 lens/artifacts/OpenLens-${{ env.LENS_VERSION }}.zip | awk '{print $1}')'\"/' Casks/openlens.rb > lens.rb
           mv lens.rb Casks/openlens.rb
       - name: Add & Commit Cask
         uses: EndBug/add-and-commit@v9.0.0
