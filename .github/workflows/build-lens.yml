@@ -16,14 +16,16 @@ jobs:
           echo "LENS_VERSION=$(cat version)" >> $GITHUB_ENV
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.19.1
+          node-version: 16.20.0
+      - name: Install specific npm version
+        run: npm install -g npm@^9.6.7
       - name: Build Lens
         run: |
           git clone https://github.com/lensapp/lens.git
           cd lens
           git checkout v${{ env.LENS_VERSION }}
-          yarn install
-          yarn run build:app
+          npm install
+          npm run build:app
           mkdir artifacts
           mv packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}-mac.zip artifacts/OpenLens-${{ env.LENS_VERSION }}.zip
       - name: Release
