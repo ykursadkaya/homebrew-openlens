@@ -27,7 +27,7 @@ jobs:
           npm install
           npm run build:app
           mkdir artifacts
-          mv packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}-mac.zip artifacts/OpenLens-${{ env.LENS_VERSION }}.zip
+          mv open-lens/dist/OpenLens-${{ env.LENS_VERSION }}-mac.zip artifacts/OpenLens-${{ env.LENS_VERSION }}.zip
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
         with:
